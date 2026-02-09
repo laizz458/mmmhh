@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Veux-tu être ma Valentine ? 💖</title>
+
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: white;
+      text-align: center;
+      padding: 0 10px;
+    }
+
+    #message {
+      color: white;
+      font-size: 18px;
+      margin-bottom: 20px;
+      text-align: center;
+      min-height: 24px;
+    }
+
+    .buttons {
+      position: relative;
+      width: 100%;
+      height: 50vh;
+    }
+
+    button {
+      position: absolute;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      white-space: nowrap;
+    }
+
+    #yes {
+      background-color: #4CAF50;
+      color: white;
+      left: 50%;
+      top: 20px;
+      transform: translateX(-50%) scale(1);
+    }
+
+    #no {
+      background-color: #f44336;
+      color: white;
+      left: 50%;
+      top: 120px;
+      transform: translateX(-50%) scale(1);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💘 Veux-tu être ma Valentine ? 💘</h1>
+  <div id="message"></div>
+
+  <div class="buttons">
+    <button id="yes">Oui 💖</button>
+    <button id="no">Non 💔</button>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const message = document.getElementById("message");
+
+    const messages = [
+      "T’es sûre ? 😏",
+      "Réfléchis bien… 💭",
+      "Allez stp 🥺",
+      "Je fais un effort là 😭",
+      "C’est le destin 💘",
+      "Tu peux plus fuir 😈",
+      "Regarde le bouton Oui 👀"
+    ];
+
+    let yesScale = 1;
+    let noScale = 1;
+    let count = 0;
+
+    function trollEffect() {
+      // 📳 Vibration (si supportée)
+      if (navigator.vibrate) {
+        navigator.vibrate(100);
+      }
+
+      // 💬 Message qui change
+      message.textContent = messages[count % messages.length];
+      count++;
+
+      // 🟢 Bouton Oui grossit
+      yesScale += 0.15;
+      yesBtn.style.transform = `translateX(-50%) scale(${yesScale})`;
+
+      // 🔻 Bouton Non rétrécit (minimum)
+      noScale = Math.max(0.4, noScale - 0.08);
+      noBtn.style.transform = `translateX(-50%) scale(${noScale})`;
+
+      // 📱 Déplacement limité à l’écran
+      const padding = 10;
+      const maxX = window.innerWidth - noBtn.offsetWidth * noScale - padding;
+      const maxY = window.innerHeight - noBtn.offsetHeight * noScale - padding;
+
+      const randomX = Math.max(padding, Math.random() * maxX);
+      const randomY = Math.max(padding, Math.random() * maxY);
+
+      noBtn.style.left = randomX + "px";
+      noBtn.style.top = randomY + "px";
+    }
+
+    noBtn.addEventListener("mouseenter", trollEffect);
+    noBtn.addEventListener("touchstart", trollEffect);
+
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <h1 style="color:white; text-align:center;">
+          💖 J’EN ÉTAIS SÛR 💖<br><br>
+          Joyeuse Saint-Valentin 😘
+        </h1>
+      `;
+    });
+  </script>
+
+</body>
+</html>
